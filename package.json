@@ -1,0 +1,24 @@
+{
+  "name": "music-share-bot",
+  "version": "0.0.1",
+  "description": "Telegram bot for sharing music",
+  "main": "bot.js",
+  "scripts": {
+    "test": "jest --setupFiles dotenv/config",
+    "devstart": "nodemon -r dotenv/config src/bot.js"
+  },
+  "author": "ihorb",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "telegraf": "^4.4.0"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jest": "^24.3.6",
+    "jest": "^27.0.6"
+  }
+}
