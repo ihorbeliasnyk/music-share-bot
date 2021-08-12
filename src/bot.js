@@ -1,10 +1,18 @@
-const { Telegraf, Markup } = require('telegraf');
-const getTrackDataByURL = require('./api/getTrackDataByURL');
+const { Telegraf } = require('telegraf');
+const queryHandler = require('./queryHandler');
+
+if (
+  !process.env.BOT_TOKEN
+  || !process.env.YT_API_KEY
+  || !process.env.SPOTIFY_USERNAME
+  || !process.env.SPOTIFY_PASSWORD
+) {
+  throw new Error('MISSING CREDENTIALS');
+}
 
 const { BOT_TOKEN } = process.env;
 
 const bot = new Telegraf(BOT_TOKEN);
-bot.use(Telegraf.log());
 
 bot.start(async (ctx) => {
   ctx.reply('Hi. You can use me in any chat with @MusVertBot (like @gif bot)');
@@ -12,45 +20,13 @@ bot.start(async (ctx) => {
 
 bot.on('message', (ctx) => ctx.reply("I'm inline bot, use me in chats with @MusVertBot"));
 
-bot.on('inline_query', async (ctx) => {
-  const { query } = ctx.update.inline_query;
+bot.on('inline_query', queryHandler);
 
-  const data = [];
-
-  try {
-    data[0] = await getTrackDataByURL(query);
-  } catch (e) {
-    console.error(e);
-    return ctx.answerInlineQuery([]);
-  }
-
-  const results = data.map((el, i) => {
-    const {
-      name, artists, ytUrl, spotifyUrl, thumbUrl,
-    } = el;
-
-    const keyboard = Markup.inlineKeyboard([
-      Markup.button.url('YT Music', ytUrl),
-      Markup.button.url('Spotify', spotifyUrl),
-    ]).reply_markup;
-
-    return {
-      type: 'article',
-      id: i,
-      title: name,
-      description: artists,
-      reply_markup: keyboard,
-      input_message_content: { message_text: `📻  ${name} - ${artists}` },
-      thumb_url: thumbUrl,
-      thumb_width: '300',
-      thumb_height: '300',
-    };
-  });
-
-  return ctx.answerInlineQuery(results);
-});
-
-bot.launch();
+if (process.env.NODE_ENV === 'production') {
+  bot.startWebhook(process.env.SECRET_PATH, null, process.env.PORT);
+} else {
+  bot.launch();
+}
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
