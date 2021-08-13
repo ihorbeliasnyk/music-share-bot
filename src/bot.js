@@ -6,6 +6,7 @@ if (
   || !process.env.YT_API_KEY
   || !process.env.SPOTIFY_USERNAME
   || !process.env.SPOTIFY_PASSWORD
+  || !process.env.SECRET_PATH
 ) {
   throw new Error('MISSING CREDENTIALS');
 }
