@@ -11,6 +11,7 @@ services:
       - SPOTIFY_USERNAME=${SPOTIFY_USERNAME}
       - BOT_TOKEN=${BOT_TOKEN}
       - SECRET_PATH=${SECRET_PATH}
+      - HOST=${HOST}
     image: nodejs
     container_name: nodejs
     restart: unless-stopped
