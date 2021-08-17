@@ -2,9 +2,6 @@ version: '3'
 
 services:
   nodejs:
-    build:
-      context: .
-      dockerfile: Dockerfile
     environment:
       - YT_API_KEY=${YT_API_KEY}
       - SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD}
@@ -12,7 +9,7 @@ services:
       - BOT_TOKEN=${BOT_TOKEN}
       - SECRET_PATH=${SECRET_PATH}
       - HOST=${HOST}
-    image: nodejs
+    image: ihorbeliasnyk/music-share-bot
     container_name: nodejs
     restart: unless-stopped
     networks:
