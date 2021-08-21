@@ -9,8 +9,8 @@ COPY package*.json ./
 
 RUN npm ci --only=production
 
-COPY . .
+COPY src ./
 
 EXPOSE 8080
 
-ENTRYPOINT [ "node", "src/bot.js" ]
+ENTRYPOINT [ "node", "bot.js" ]
