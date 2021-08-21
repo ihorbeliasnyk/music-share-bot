@@ -23,10 +23,10 @@ bot.on('message', (ctx) => ctx.reply("I'm inline bot, use me in chats with @MusV
 bot.on('inline_query', queryHandler);
 
 if (process.env.NODE_ENV === 'production') {
-  if (!process.env.SECRET_PATH || !process.env.HOST) {
-    throw new Error('MISSING WEBHOOK CONFIGS');
+  if (!process.env.HOST) {
+    throw new Error('MISSING HOST');
   }
-  bot.telegram.setWebhook(`${process.env.HOST}${process.env.SECRET_PATH}`);
+  bot.telegram.setWebhook(`${process.env.HOST}${process.env.BOT_TOKEN}`);
   bot.startWebhook(process.env.SECRET_PATH, undefined, process.env.PORT);
 } else {
   bot.launch();

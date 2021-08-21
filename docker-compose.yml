@@ -7,7 +7,6 @@ services:
       - SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD}
       - SPOTIFY_USERNAME=${SPOTIFY_USERNAME}
       - BOT_TOKEN=${BOT_TOKEN}
-      - SECRET_PATH=${SECRET_PATH}
       - HOST=${HOST}
     image: ihorbeliasnyk/music-share-bot
     container_name: nodejs
@@ -19,12 +18,14 @@ services:
     image: nginx:mainline-alpine
     container_name: webserver
     restart: unless-stopped
+    environment:
+      - BOT_SECRET_PATH=${BOT_SECRET_PATH}
     ports:
       - '80:80'
       - '443:443'
     volumes:
       - web-root:/var/www/html
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/templates
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       - dhparam:/etc/ssl/certs
