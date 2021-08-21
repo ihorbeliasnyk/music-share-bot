@@ -26,8 +26,8 @@ if (process.env.NODE_ENV === 'production') {
   if (!process.env.HOST) {
     throw new Error('MISSING HOST');
   }
-  bot.telegram.setWebhook(`${process.env.HOST}${process.env.BOT_TOKEN}`);
-  bot.startWebhook(process.env.BOT_TOKEN, undefined, process.env.PORT);
+  bot.telegram.setWebhook(`${process.env.HOST}/${process.env.BOT_TOKEN}`);
+  bot.startWebhook(`/${process.env.BOT_TOKEN}`, undefined, process.env.PORT);
 } else {
   bot.launch();
 }
