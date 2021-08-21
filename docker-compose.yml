@@ -19,7 +19,7 @@ services:
     container_name: webserver
     restart: unless-stopped
     environment:
-      - BOT_SECRET_PATH=${BOT_SECRET_PATH}
+      - BOT_SECRET_PATH=${BOT_TOKEN}
     ports:
       - '80:80'
       - '443:443'
