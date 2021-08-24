@@ -22,7 +22,7 @@ test('recognizes link for Spotify', async () => {
   );
 });
 
-test('result have needed data for YT link', async () => {
+test('result has required data for YT link', async () => {
   const result = await getTrackDataByURL(YT_MUSIC_SAMPLE_URL);
   expect(result).toHaveProperty('service');
   expect(result).toHaveProperty('artists');
@@ -32,7 +32,7 @@ test('result have needed data for YT link', async () => {
   expect(result).toHaveProperty('thumbUrl');
 });
 
-test('result have needed data for Spotify link', async () => {
+test('result has required data for Spotify link', async () => {
   const result = await getTrackDataByURL(SPOTIFY_SAMPLE_URL);
   expect(result).toHaveProperty('service');
   expect(result).toHaveProperty('artists');
