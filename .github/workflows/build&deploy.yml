@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,3 +40,23 @@ jobs:
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/music-share-bot:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+
+      - name: Pull image and run app containter on VPS
+        uses: appleboy/ssh-action@master
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          SPOTIFY_USERNAME: ${{ secrets.SPOTIFY_USERNAME }}
+          SPOTIFY_PASSWORD: ${{ secrets.SPOTIFY_PASSWORD }}
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USERNAME }} 
+          password: ${{ secrets.VPS_PASSWORD }}
+          envs: BOT_TOKEN, SPOTIFY_USERNAME, SPOTIFY_PASSWORD, YT_API_KEY, DOCKER_HUB_TOKEN
+          script: |
+            cd music-share-bot
+            echo $DOCKER_HUB_TOKEN | docker login -u ihorbeliasnyk --password-stdin
+            docker-compose pull nodejs
+            docker-compose up -d --no-deps nodejs
+      
