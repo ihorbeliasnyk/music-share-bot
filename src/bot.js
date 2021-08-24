@@ -15,10 +15,10 @@ const { BOT_TOKEN } = process.env;
 const bot = new Telegraf(BOT_TOKEN);
 
 bot.start(async (ctx) => {
-  ctx.reply('Hi. You can use me in any chat with @MusVertBot (like @gif or @pic)');
+  ctx.reply('Hi. You can use me in any chat simply by entering my username @MusVertBot and pasting a link to the track from Spotify or YouTube Music');
 });
 
-bot.on('message', (ctx) => ctx.reply("I'm inline bot, use me in chats with @MusVertBot"));
+bot.on('message', (ctx) => ctx.reply('I am an inline bot, use me in any chat simply by entering my username @MusVertBot'));
 
 bot.on('inline_query', queryHandler);
 
