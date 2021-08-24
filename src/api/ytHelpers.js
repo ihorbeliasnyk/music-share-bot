@@ -8,6 +8,7 @@ const getYTTrackURLByISRC = async (isrc) => {
   searchUrl.searchParams.append('part', 'snippet');
   searchUrl.searchParams.append('type', 'video');
   searchUrl.searchParams.append('key', YT_API_KEY);
+  searchUrl.searchParams.append('regionCode', 'UA');
   searchUrl.searchParams.append('q', isrc);
 
   const { data } = await axios.get(searchUrl.href);

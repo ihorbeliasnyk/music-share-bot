@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  nodejs:
+    environment:
+      - YT_API_KEY=${YT_API_KEY}
+      - SPOTIFY_PASSWORD=${SPOTIFY_PASSWORD}
+      - SPOTIFY_USERNAME=${SPOTIFY_USERNAME}
+      - BOT_TOKEN=${BOT_TOKEN}
+      - BOT_DOMAIN=${BOT_DOMAIN}
+    image: ihorbeliasnyk/music-share-bot
+    container_name: nodejs
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
+    depends_on:
+      - nodejs
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - web-root:/var/www/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email ihorbeliasnyk@gmail.com --agree-tos --no-eff-email --force-renewal -d tgmusvertbot.pp.ua  -d www.tgmusvertbot.pp.ua
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /root/music-share-bot/dhparam
+      o: bind
+
+networks:
+  app-network:
+    driver: bridge
