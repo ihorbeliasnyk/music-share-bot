@@ -24,7 +24,7 @@ test('recognizes link for Spotify', async () => {
 
 test('result have needed data for YT link', async () => {
   const result = await getTrackDataByURL(YT_MUSIC_SAMPLE_URL);
-  expect(result).toHaveProperty('services');
+  expect(result).toHaveProperty('service');
   expect(result).toHaveProperty('artists');
   expect(result).toHaveProperty('name');
   expect(result).toHaveProperty('ytUrl');
