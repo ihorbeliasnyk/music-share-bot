@@ -56,9 +56,9 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           envs: BOT_TOKEN, SPOTIFY_USERNAME, SPOTIFY_PASSWORD, YT_API_KEY, DOCKER_HUB_TOKEN, BOT_DOMAIN
           script: |
-            docker -v
-            # cd music-share-bot
-            # echo $DOCKER_HUB_TOKEN | docker login -u ihorbeliasnyk --password-stdin
-            # docker-compose pull nodejs
-            # docker-compose up -d --no-deps nodejs
+            exec bash
+            cd music-share-bot
+            echo $DOCKER_HUB_TOKEN | docker login -u ihorbeliasnyk --password-stdin
+            docker-compose pull nodejs
+            docker-compose up -d --no-deps nodejs
       
