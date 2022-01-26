@@ -10,6 +10,8 @@
   "author": "ihorb",
   "license": "ISC",
   "dependencies": {
+    "@sentry/node": "^6.17.2",
+    "@sentry/tracing": "^6.17.2",
     "axios": "^0.21.1",
     "telegraf": "^4.4.0"
   },
