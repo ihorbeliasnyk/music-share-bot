@@ -9,7 +9,8 @@ module.exports = async (ctx) => {
   try {
     data[0] = await getTrackDataByURL(query);
   } catch (e) {
-    return ctx.answerInlineQuery([]);
+    await ctx.answerInlineQuery([]);
+    throw new Error(e);
   }
 
   const results = data.map((el, i) => {

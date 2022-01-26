@@ -27,8 +27,10 @@ const getYTTrackData = async (id) => {
   trackDataURL.searchParams.append('key', YT_API_KEY);
 
   const { data } = await axios.get(trackDataURL.href);
-  const { snippet } = data.items[0];
 
+  if (!data.items[0]) throw new Error('SONG_NOT_FOUND');
+
+  const { snippet } = data.items[0];
   return snippet;
 };
 

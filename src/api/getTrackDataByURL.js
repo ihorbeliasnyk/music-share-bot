@@ -25,6 +25,8 @@ const getTrackDataByURL = async (trackURL) => {
     const artistsWithoutAmpersand = artists.replace(/ &/g, '');
     const [spotifyData] = await searchOnSpotify(`${name} ${artistsWithoutAmpersand}`);
 
+    if (!spotifyData) throw new Error('SONG_NOT_FOUND');
+
     result.name = name;
     result.artists = artists;
     result.ytUrl = trackURL;
