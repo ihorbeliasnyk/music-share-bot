@@ -23,32 +23,22 @@ Sentry.init({
   maxBreadcrumbs: 3,
 });
 
-bot.start(async (ctx) => {
-  const transaction = Sentry.startTransaction({
-    op: 'directMessage',
-    name: 'Direct message',
-  });
-  const { id, username } = ctx.update.message.from;
-  Sentry.setUser({ id, username });
-
-  await ctx.reply('Hi. You can use me in any chat simply by entering my username @MusVertBot and pasting a link to the track from Spotify or YouTube Music');
-
-  transaction.setStatus('ok');
-  transaction.finish();
-});
-
 bot.on('message', async (ctx) => {
   const transaction = Sentry.startTransaction({
     op: 'directMessage',
     name: 'Direct message',
   });
+
   const { id, username } = ctx.update.message.from;
+  const { text } = ctx.update.message;
   Sentry.setUser({ id, username });
+  Sentry.setContext('message', { text });
 
   await ctx.reply('I am an inline bot, use me in any chat simply by entering my username @MusVertBot');
 
   transaction.setStatus('ok');
   transaction.finish();
+  Sentry.setContext('message', null);
 });
 
 bot.on('inline_query', async (ctx) => {
@@ -72,6 +62,7 @@ bot.on('inline_query', async (ctx) => {
     Sentry.captureException(e);
     transaction.setStatus('not_found');
   } finally {
+    Sentry.setContext('song', null);
     transaction.finish();
   }
 });
