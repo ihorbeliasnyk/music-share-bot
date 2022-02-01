@@ -2,6 +2,16 @@ const { Telegraf } = require('telegraf');
 const Sentry = require('@sentry/node');
 // eslint-disable-next-line no-unused-vars
 const Tracing = require('@sentry/tracing');
+
+const {
+  VIDEO_TUTORIAL_ID,
+  VIDEO_TUTORIAL_CAPTION,
+  RUSSIAN_HELP_TEXT,
+  ENGLISH_HELP_TEXT,
+  CHAT_INVITE_TEXT,
+  SENTRY_DSN,
+} = require('./constants');
+
 const queryHandler = require('./queryHandler');
 
 if (
@@ -18,7 +28,7 @@ const { BOT_TOKEN } = process.env;
 const bot = new Telegraf(BOT_TOKEN);
 
 Sentry.init({
-  dsn: 'https://d29f9a7cfd0b4c04bdc421c092dabae0@o1127561.ingest.sentry.io/6169806',
+  dsn: SENTRY_DSN,
   tracesSampleRate: 1.0,
   maxBreadcrumbs: 3,
 });
@@ -34,7 +44,10 @@ bot.on('message', async (ctx) => {
   Sentry.setUser({ id, username });
   Sentry.setContext('message', { text });
 
-  await ctx.reply('I am an inline bot, use me in any chat simply by entering my username @MusVertBot');
+  await ctx.reply(RUSSIAN_HELP_TEXT);
+  await ctx.reply(ENGLISH_HELP_TEXT);
+  await ctx.reply(CHAT_INVITE_TEXT);
+  await ctx.replyWithVideo(VIDEO_TUTORIAL_ID, { caption: VIDEO_TUTORIAL_CAPTION });
 
   transaction.setStatus('ok');
   transaction.finish();
