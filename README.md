@@ -20,3 +20,11 @@ SPOTIFY_PASSWORD=spotify app client secret
 YT_API_KEY=youtube api key
 ```
 3. Run `npm run devstart`
+
+## Tech stack
+
+* Node.js
+* Telegraf (Telegram bot framework)
+* Docker, Docker Compose
+* Nginx
+* Sentry
